@@ -17,7 +17,13 @@ AngelaPage class >> canBeRoot [
 AngelaPage >> renderContentOn: html [ 
 
 	self renderHeaderOn: html.
-	self renderPhotoSection: html.
+	
+	self showedSection = #grid
+		ifTrue: [self renderPhotoSection: html].
+
+	self showedSection = #list
+		ifTrue: [self renderListSection: html].
+
 	self renderFooter: html
 	
 ]
@@ -72,6 +78,34 @@ AngelaPage >> renderHeaderOn: html [
 		]].
 ]
 
+{ #category : #rendering }
+AngelaPage >> renderListSection: html [
+
+	html section
+		class: 'list';
+		with: [ 
+			
+				self renderName: (AngelaLibrary / #image1Jpg ) text: 'Black Line Yellow Box' on: html.
+				self renderName: (AngelaLibrary / #image2Jpg ) text: 'Desk Flowers' on: html.
+				self renderName: (AngelaLibrary / #image3Jpg ) text: 'Fence Sign Reach' on: html.
+			   self renderName: (AngelaLibrary / #image4Jpg ) text: 'Green Grass Line' on: html.
+				self renderName: (AngelaLibrary / #image5Jpg ) text: 'Fill Outline' on: html.
+				self renderName: (AngelaLibrary / #image6Jpg ) text: 'Bollard Bag Black Grey' on: html.
+				self renderName: (AngelaLibrary / #image7Jpg ) text: 'Three Shutters' on: html.
+			   self renderName: (AngelaLibrary / #image8Jpg ) text: 'Green Bag White Wall' on: html.
+				self renderName: (AngelaLibrary / #image9Jpg ) text: 'Temporary Barrier Bin' on: html.				
+			
+			]
+]
+
+{ #category : #rendering }
+AngelaPage >> renderName: aFile text: aText on: html [
+	html anchor
+		url: '#';
+		with: [ html span: aText.
+			html image url: aFile ]
+]
+
 { #category : #'as yet unclassified' }
 AngelaPage >> renderPhoto: aFile text: aText additionalClass: additionalClass on: html [
 
@@ -95,64 +129,13 @@ AngelaPage >> renderPhotoSection: html [
 				self renderPhoto: (AngelaLibrary / #image1Jpg ) text: 'Black Line Yellow Box' additionalClass: '' on: html.
 				self renderPhoto: (AngelaLibrary / #image2Jpg ) text: 'Desk Flowers' additionalClass: 'small' on: html.
 				self renderPhoto: (AngelaLibrary / #image3Jpg ) text: 'Fence Sign Reach' additionalClass: 'large' on: html.
-					
-				html div 
-					class: 'photo';
-					with: [ 
-						html div
-							class:'overlay';
-							with:[
-								html heading level:2; with:'Green Grass Line' ].
-						html image url: (AngelaLibrary / #image4Jpg )	].
-						
-				html div		
-					class: 'photo large';
-					with: [ 
-						html div 
-							class: 'overlay';
-							with:[
-								html heading level:2; with: 'Fill Outline' ].
-						html image url: (AngelaLibrary / #image5Jpg ) ].
-						
-				html div		
-					class: 'photo small';
-					with: [ 
-						html div 
-							class: 'overlay';
-							with:[
-								html heading level:2; with: 'Bollard Bag Black Grey' ].
-						html image url: (AngelaLibrary / #image6Jpg ) ].		
-					
-				html div		
-					class: 'photo small';
-					with: [ 
-						html div 
-							class: 'overlay';
-							with:[
-								html heading level:2; with: 'Three Shutters' ].
-						html image url: (AngelaLibrary / #image7Jpg ) ].	
-				
-				html div		
-					class: 'photo';
-					with: [ 
-						html div 
-							class: 'overlay';
-							with:[
-								html heading level:2; with: 'Green Bag White Wall' ].
-						html image url: (AngelaLibrary / #image8Jpg ) ].	
-				
-				html div		
-					class: 'photo large';
-					with: [ 
-						html div 
-							class: 'overlay';
-							with:[
-								html heading level:2; with: 'Temporary Barrier Bin' ].
-						html image url: (AngelaLibrary / #image9Jpg ) ].	
-						
-						
-									
-						
+			   self renderPhoto: (AngelaLibrary / #image4Jpg ) text: 'Green Grass Line' additionalClass: ''	on: html.
+				self renderPhoto: (AngelaLibrary / #image5Jpg ) text: 'Fill Outline' additionalClass: 'large' on: html.
+				self renderPhoto: (AngelaLibrary / #image6Jpg ) text: 'Bollard Bag Black Grey' additionalClass: 'small' on: html.
+				self renderPhoto: (AngelaLibrary / #image7Jpg ) text: 'Three Shutters' additionalClass: 'small' on: html.
+			   self renderPhoto: (AngelaLibrary / #image8Jpg ) text: 'Green Bag White Wall' additionalClass: ''	on: html.
+				self renderPhoto: (AngelaLibrary / #image9Jpg ) text: 'Temporary Barrier Bin' additionalClass: 'large'	on: html.				
+		
 		]
     
 

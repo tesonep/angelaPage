@@ -73,40 +73,28 @@ AngelaPage >> renderHeaderOn: html [
 ]
 
 { #category : #'as yet unclassified' }
+AngelaPage >> renderPhoto: aFile text: aText additionalClass: additionalClass on: html [
+
+	html div
+		class: 'photo' , ' ' , additionalClass;
+		with: [ html div
+				class: 'overlay';
+				with: [ html heading
+						level: 2;
+						with: aText ].
+			html image url: aFile ]
+]
+
+{ #category : #'as yet unclassified' }
 AngelaPage >> renderPhotoSection: html [ 
 
 	html section 
 		class: 'photos';
 		with: [  
 
-				html div 
-					class:'photo';
-					with: [ 
-						html div 
-							class:'overlay';
-							with: [ 
-								html heading level:2; with: 'Black Line Yellow Box'].
-						html image url: (AngelaLibrary / #image1Jpg ) ].
-					
-				html div 
-					class: 'photo small';	
-					with: [ 
-						 html div
-							class:'overlay';
-							with:[
-								html heading level:2; with: 'Desk Flowers'].
-						 html image url: (AngelaLibrary / #image2Jpg )	 ].
-								
-						
-				html div 
-					class: 'photo large';
-					with: [ 
-						html div 
-							class: 'overlay';
-							with: [
-								html heading level:2; with: 'Fence Sign Reach'].
-						html image url: (AngelaLibrary / #image3Jpg ) ].
-					
+				self renderPhoto: (AngelaLibrary / #image1Jpg ) text: 'Black Line Yellow Box' additionalClass: '' on: html.
+				self renderPhoto: (AngelaLibrary / #image2Jpg ) text: 'Desk Flowers' additionalClass: 'small' on: html.
+				self renderPhoto: (AngelaLibrary / #image3Jpg ) text: 'Fence Sign Reach' additionalClass: 'large' on: html.
 					
 				html div 
 					class: 'photo';

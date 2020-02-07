@@ -37,7 +37,7 @@ Shop >> articles [
 { #category : #accessing }
 Shop >> filter: aString [
 
-	^ self articles select: [ :e | e name asLowercase beginsWith: aString asLowercase ]
+	^ self articles select: [ :e | (e name asLowercase) includesSubstring: aString asLowercase ]
 ]
 
 { #category : #initialization }

@@ -66,6 +66,30 @@ ShopTest >> testFilteringAllCapitalShouldReturnTheRedYoyo [
 ]
 
 { #category : #tests }
+ShopTest >> testFilteringFindTextInbetween [
+
+	| aShop |
+	aShop := Shop new.
+	aShop
+		addArticle:
+			(Article new
+				name: 'Red Yoyo';
+				price: 10;
+				weight: 0.5;
+				yourself).
+	aShop
+		addArticle:
+			(Article new
+				name: 'Blue Yoyo';
+				price: 10;
+				weight: 0.5;
+				yourself).
+				
+	self assert: aShop articles size equals: 2.
+	self assert: (aShop filter: 'u') size equals: 1 
+]
+
+{ #category : #tests }
 ShopTest >> testFilteringLowercaseShouldReturnTheRedYoyo [
 	|aShop|
 	

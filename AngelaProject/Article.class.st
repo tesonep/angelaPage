@@ -5,10 +5,21 @@ Class {
 		'image',
 		'name',
 		'price',
-		'weight'
+		'weight',
+		'additionalClass'
 	],
 	#category : #AngelaProject
 }
+
+{ #category : #accessing }
+Article >> additionalClass [
+	^ additionalClass
+]
+
+{ #category : #accessing }
+Article >> additionalClass: aClass [
+	additionalClass := aClass
+]
 
 { #category : #accessing }
 Article >> image [

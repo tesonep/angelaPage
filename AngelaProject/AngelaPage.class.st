@@ -2,7 +2,8 @@ Class {
 	#name : #AngelaPage,
 	#superclass : #WAComponent,
 	#instVars : [
-		'showedSection'
+		'showedSection',
+		'searchCriteria'
 	],
 	#category : #AngelaProject
 }
@@ -13,23 +14,27 @@ AngelaPage class >> canBeRoot [
 	^ true
 ]
 
-{ #category : #rendering }
-AngelaPage >> renderContentOn: html [ 
-
-	self renderHeaderOn: html.
+{ #category : #accessing }
+AngelaPage >> filter: aString [
 	
-	self showedSection = #grid
-		ifTrue: [self renderPhotoSection: html].
-
-	self showedSection = #list
-		ifTrue: [self renderListSection: html].
-
-	self renderFooter: html
-	
+	^ Shop uniqueInstance filter: aString
 ]
 
 { #category : #rendering }
-AngelaPage >> renderFooter: html [
+AngelaPage >> renderContentOn: html [
+	| theShop |
+	theShop := Shop uniqueInstance.
+	
+	self renderHeaderOn: html.
+	self showedSection = #grid
+		ifTrue: [ self renderPhotos: theShop with: html ].
+	self showedSection = #list
+		ifTrue: [ self renderList: theShop with: html ].
+	self renderFooterOn: html
+]
+
+{ #category : #rendering }
+AngelaPage >> renderFooterOn: html [
 	html footer
 		with: [ 
 			html paragraph: 'Copyright © 2019'.
@@ -49,53 +54,51 @@ AngelaPage >> renderFooter: html [
 
 { #category : #rendering }
 AngelaPage >> renderHeaderOn: html [
-
-	html header: [  
-		html heading 
-			level1;
-			with: [ html image url: (AngelaLibrary / #logoSvg) ].
-			
-		html navigation with: [  | gridAnchor listAnchor contactAnchor|
-			gridAnchor := html anchor.
-			self showedSection = #grid ifTrue: [ gridAnchor class: 'selected' ].
-			gridAnchor
-				callback: [ self showedSection: #grid ];
-				with: 'Grid'.
-
-			listAnchor := html anchor.
-			self showedSection = #list ifTrue: [ listAnchor class: 'selected' ].
-			listAnchor
-				callback: [ self showedSection: #list ];
-				with: 'List'.
-
-			contactAnchor := html anchor.
-			self showedSection = #contact ifTrue: [ contactAnchor class: 'selected' ].
-			contactAnchor
-				callback: [ self showedSection: #contact ];
-				with: 'Contact'.
-				
-				
-		]].
+	html
+		header: [ html heading
+				level1;
+				with: [ html image url: AngelaLibrary / #logoSvg ].
+						
+				html textInput
+					placeholder: 'Search here';
+					callback: [ :value | searchCriteria := value ];
+					onKeyUp:
+						(html jQuery ajax
+							serializeThis;
+							script: [ :s | s << ((s jQuery id: 'articles-list') 
+									html: [: h | (self renderPhotos: Shop uniqueInstance  with: h ) ])   ]).
+							
+			html navigation
+				with: [ | gridAnchor listAnchor contactAnchor |
+					gridAnchor := html anchor.
+					self showedSection = #grid
+						ifTrue: [ gridAnchor class: 'selected' ].
+					gridAnchor
+						callback: [ self showedSection: #grid ];
+						with: 'Grid'.
+					listAnchor := html anchor.
+					self showedSection = #list
+						ifTrue: [ listAnchor class: 'selected' ].
+					listAnchor
+						callback: [ self showedSection: #list ];
+						with: 'List'.
+					contactAnchor := html anchor.
+					self showedSection = #contact
+						ifTrue: [ contactAnchor class: 'selected' ].
+					contactAnchor
+						callback: [ self showedSection: #contact ];
+						with: 'Contact' ] ]
 ]
 
 { #category : #rendering }
-AngelaPage >> renderListSection: html [
+AngelaPage >> renderList: theShop with: html [
 
 	html section
+		id: 'articles-list';
 		class: 'list';
-		with: [ 
-			
-				self renderName: (AngelaLibrary / #image1Jpg ) text: 'Black Line Yellow Box' on: html.
-				self renderName: (AngelaLibrary / #image2Jpg ) text: 'Desk Flowers' on: html.
-				self renderName: (AngelaLibrary / #image3Jpg ) text: 'Fence Sign Reach' on: html.
-			   self renderName: (AngelaLibrary / #image4Jpg ) text: 'Green Grass Line' on: html.
-				self renderName: (AngelaLibrary / #image5Jpg ) text: 'Fill Outline' on: html.
-				self renderName: (AngelaLibrary / #image6Jpg ) text: 'Bollard Bag Black Grey' on: html.
-				self renderName: (AngelaLibrary / #image7Jpg ) text: 'Three Shutters' on: html.
-			   self renderName: (AngelaLibrary / #image8Jpg ) text: 'Green Bag White Wall' on: html.
-				self renderName: (AngelaLibrary / #image9Jpg ) text: 'Temporary Barrier Bin' on: html.				
-			
-			]
+		with: [ theShop articles
+				do: [ :e |
+					self renderName: e image text: e name , ' $ ' , e price printString  on: html ]]
 ]
 
 { #category : #rendering }
@@ -106,39 +109,46 @@ AngelaPage >> renderName: aFile text: aText on: html [
 			html image url: aFile ]
 ]
 
-{ #category : #'as yet unclassified' }
-AngelaPage >> renderPhoto: aFile text: aText additionalClass: additionalClass on: html [
+{ #category : #rendering }
+AngelaPage >> renderPhoto: aFile text: aText price: aPrice additionalClass: additionalClass on: html [
 
 	html div
 		class: 'photo' , ' ' , additionalClass;
-		with: [ html div
+		with: [ 
+			html div
 				class: 'overlay';
 				with: [ html heading
 						level: 2;
-						with: aText ].
+						with: [
+							html span: aText.
+					      html break.
+							html span: '$ ', aPrice printString.
+						]
+					].
 			html image url: aFile ]
 ]
 
-{ #category : #'as yet unclassified' }
-AngelaPage >> renderPhotoSection: html [ 
+{ #category : #rendering }
+AngelaPage >> renderPhotos: theShop with: html [
+	
+	| articlesToShow |
 
-	html section 
+	(searchCriteria isNil or: [ searchCriteria isEmpty ])
+		ifTrue: [ articlesToShow := theShop articles. ]
+		ifFalse: [ articlesToShow := theShop filter: searchCriteria ].
+
+	html section
+		id: 'articles-list';
 		class: 'photos';
-		with: [  
-
-				self renderPhoto: (AngelaLibrary / #image1Jpg ) text: 'Black Line Yellow Box' additionalClass: '' on: html.
-				self renderPhoto: (AngelaLibrary / #image2Jpg ) text: 'Desk Flowers' additionalClass: 'small' on: html.
-				self renderPhoto: (AngelaLibrary / #image3Jpg ) text: 'Fence Sign Reach' additionalClass: 'large' on: html.
-			   self renderPhoto: (AngelaLibrary / #image4Jpg ) text: 'Green Grass Line' additionalClass: ''	on: html.
-				self renderPhoto: (AngelaLibrary / #image5Jpg ) text: 'Fill Outline' additionalClass: 'large' on: html.
-				self renderPhoto: (AngelaLibrary / #image6Jpg ) text: 'Bollard Bag Black Grey' additionalClass: 'small' on: html.
-				self renderPhoto: (AngelaLibrary / #image7Jpg ) text: 'Three Shutters' additionalClass: 'small' on: html.
-			   self renderPhoto: (AngelaLibrary / #image8Jpg ) text: 'Green Bag White Wall' additionalClass: ''	on: html.
-				self renderPhoto: (AngelaLibrary / #image9Jpg ) text: 'Temporary Barrier Bin' additionalClass: 'large'	on: html.				
-		
-		]
-    
-
+		with: [ 
+			articlesToShow
+				do: [ :e | 
+					self
+						renderPhoto: e image
+						text: e name
+						price: e price
+						additionalClass: e additionalClass
+						on: html ] ]
 ]
 
 { #category : #accessing }

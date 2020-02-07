@@ -34,6 +34,12 @@ Shop >> articles [
 	^ allArticles
 ]
 
+{ #category : #accessing }
+Shop >> filter: aString [
+
+	^ self articles select: [ :e | e name asLowercase beginsWith: aString asLowercase ]
+]
+
 { #category : #initialization }
 Shop >> initialize [ 
 

@@ -33,7 +33,7 @@ AngelaPage >> renderContentOn: html [
 	self renderFooterOn: html
 ]
 
-{ #category : #rendering }
+{ #category : #renderingFoot }
 AngelaPage >> renderFooterOn: html [
 	html footer
 		with: [ 
@@ -52,45 +52,17 @@ AngelaPage >> renderFooterOn: html [
 	]
 ]
 
-{ #category : #rendering }
+{ #category : #renderingHead }
 AngelaPage >> renderHeaderOn: html [
 	html
-		header: [ html heading
-				level1;
-				with: [ html image url: AngelaLibrary / #logoSvg ].
-						
-				html textInput
-					placeholder: 'Search here';
-					callback: [ :value | searchCriteria := value ];
-					onKeyUp:
-						(html jQuery ajax
-							serializeThis;
-							script: [ :s | s << ((s jQuery id: 'articles-list') 
-									html: [: h | (self renderPhotos: Shop uniqueInstance  with: h ) ])   ]).
-							
-			html navigation
-				with: [ | gridAnchor listAnchor contactAnchor |
-					gridAnchor := html anchor.
-					self showedSection = #grid
-						ifTrue: [ gridAnchor class: 'selected' ].
-					gridAnchor
-						callback: [ self showedSection: #grid ];
-						with: 'Grid'.
-					listAnchor := html anchor.
-					self showedSection = #list
-						ifTrue: [ listAnchor class: 'selected' ].
-					listAnchor
-						callback: [ self showedSection: #list ];
-						with: 'List'.
-					contactAnchor := html anchor.
-					self showedSection = #contact
-						ifTrue: [ contactAnchor class: 'selected' ].
-					contactAnchor
-						callback: [ self showedSection: #contact ];
-						with: 'Contact' ] ]
+		header: [ 
+			self renderLogoOn: html.
+			self renderSearchOn: html.
+			self renderNavigationOn: html 
+			]
 ]
 
-{ #category : #rendering }
+{ #category : #renderingList }
 AngelaPage >> renderList: theShop with: html [
 
 	html section
@@ -101,7 +73,14 @@ AngelaPage >> renderList: theShop with: html [
 					self renderName: e image text: e name , ' $ ' , e price printString  on: html ]]
 ]
 
-{ #category : #rendering }
+{ #category : #renderingHead }
+AngelaPage >> renderLogoOn: html [
+	html heading
+		level1;
+		with: [ html image url: AngelaLibrary / #logoSvg ]
+]
+
+{ #category : #renderingList }
 AngelaPage >> renderName: aFile text: aText on: html [
 	html anchor
 		url: '#';
@@ -109,7 +88,31 @@ AngelaPage >> renderName: aFile text: aText on: html [
 			html image url: aFile ]
 ]
 
-{ #category : #rendering }
+{ #category : #renderingHead }
+AngelaPage >> renderNavigationOn: html [
+	html navigation
+		with: [ | gridAnchor listAnchor contactAnchor |
+			gridAnchor := html anchor.
+			self showedSection = #grid
+				ifTrue: [ gridAnchor class: 'selected' ].
+			gridAnchor
+				callback: [ self showedSection: #grid ];
+				with: 'Grid'.
+			listAnchor := html anchor.
+			self showedSection = #list
+				ifTrue: [ listAnchor class: 'selected' ].
+			listAnchor
+				callback: [ self showedSection: #list ];
+				with: 'List'.
+			contactAnchor := html anchor.
+			self showedSection = #contact
+				ifTrue: [ contactAnchor class: 'selected' ].
+			contactAnchor
+				callback: [ self showedSection: #contact ];
+				with: 'Contact' ]
+]
+
+{ #category : #renderingGrid }
 AngelaPage >> renderPhoto: aFile text: aText price: aPrice additionalClass: additionalClass on: html [
 
 	html div
@@ -128,7 +131,7 @@ AngelaPage >> renderPhoto: aFile text: aText price: aPrice additionalClass: addi
 			html image url: aFile ]
 ]
 
-{ #category : #rendering }
+{ #category : #renderingGrid }
 AngelaPage >> renderPhotos: theShop with: html [
 	
 	| articlesToShow |
@@ -149,6 +152,33 @@ AngelaPage >> renderPhotos: theShop with: html [
 						price: e price
 						additionalClass: e additionalClass
 						on: html ] ]
+]
+
+{ #category : #renderingHead }
+AngelaPage >> renderResultSpanOn: html [
+	^ html span
+		id: 'result';
+		with: [ (searchCriteria isNil or: [ searchCriteria isEmpty ])
+				ifTrue: [ html span: 'Showing all products' ]
+				ifFalse: [ html span: 'Showing products contains ' , searchCriteria ] ]
+]
+
+{ #category : #renderingHead }
+AngelaPage >> renderSearchOn: html [
+	html div
+		class: 'searching';
+		with: [ html textInput
+						placeholder: 'Search here';
+						callback: [ :value | searchCriteria := value ];
+						onKeyUp:
+							(html jQuery ajax
+								serializeThis;
+								script: [ :s | 
+									s << ((s jQuery id: 'articles-list')
+												html: [ :h | self renderPhotos: Shop uniqueInstance with: h ]).
+									s << ((s jQuery id: 'result') html:
+												[ :h | self renderResultSpanOn: h ]) ]).
+					self renderResultSpanOn: html ]
 ]
 
 { #category : #accessing }

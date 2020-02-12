@@ -5,7 +5,8 @@ Class {
 		'productName',
 		'productPrice',
 		'productWeight',
-		'productImage'
+		'productImage',
+		'mainPage'
 	],
 	#category : #AngelaProject
 }
@@ -18,7 +19,9 @@ IDAddArticle >> addProductToShop [
 				name: productName;
 				price: productPrice;
 				weight: productWeight;
-				image: productImage asSymbol)
+				image: productImage asSymbol).
+				
+	self returnToInternalData.
 ]
 
 { #category : #rendering }
@@ -49,6 +52,16 @@ IDAddArticle >> formForAdd: html [
 				placeholder: 'Put product image here' ]
 ]
 
+{ #category : #accessing }
+IDAddArticle >> mainPage [
+	^ mainPage
+]
+
+{ #category : #accessing }
+IDAddArticle >> mainPage: anObject [
+	mainPage := anObject
+]
+
 { #category : #rendering }
 IDAddArticle >> renderContentOn: html [ 
 
@@ -60,4 +73,11 @@ IDAddArticle >> renderContentOn: html [
 									beLight;
 									with: 'Add this article'
 									]]
+]
+
+{ #category : #'as yet unclassified' }
+IDAddArticle >> returnToInternalData [
+
+	mainPage showArticleList 
+	
 ]

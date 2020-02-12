@@ -15,14 +15,8 @@ InternalData class >> canBeRoot [
 { #category : #rendering }
 InternalData >> initialize [ 
 
-	| articles |
-	super initialize.
-	
-	articles := Shop uniqueInstance articles.
-	content := IDArticleList new
-									articles: articles;
-									yourself.
-
+	super initialize.	
+	self showArticleList 
 ]
 
 { #category : #rendering }
@@ -48,6 +42,16 @@ InternalData >> renderContentOn: html [
 
 { #category : #rendering }
 InternalData >> showAddArticle [
-		
-	content := IDAddArticle new
+	content := IDAddArticle new mainPage: self;
+		yourself
+]
+
+{ #category : #rendering }
+InternalData >> showArticleList [
+
+	| articles |
+	articles := Shop uniqueInstance articles.
+	content := IDArticleList new
+		articles: articles;
+		yourself
 ]

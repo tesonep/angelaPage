@@ -33,7 +33,8 @@ Article >> image: aPhoto [
 
 { #category : #initialize }
 Article >> initialize [
-	super initialize
+	super initialize.
+	additionalClass := ''.
 ]
 
 { #category : #accessing }

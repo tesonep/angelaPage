@@ -85,7 +85,7 @@ AngelaPage >> renderName: aFile text: aText on: html [
 	html anchor
 		url: '#';
 		with: [ html span: aText.
-			html image url: aFile ]
+			html image url: AngelaLibrary / aFile ]
 ]
 
 { #category : #renderingHead }
@@ -98,12 +98,14 @@ AngelaPage >> renderNavigationOn: html [
 			gridAnchor
 				callback: [ self showedSection: #grid ];
 				with: 'Grid'.
+				
 			listAnchor := html anchor.
 			self showedSection = #list
 				ifTrue: [ listAnchor class: 'selected' ].
 			listAnchor
 				callback: [ self showedSection: #list ];
 				with: 'List'.
+				
 			contactAnchor := html anchor.
 			self showedSection = #contact
 				ifTrue: [ contactAnchor class: 'selected' ].
@@ -128,7 +130,7 @@ AngelaPage >> renderPhoto: aFile text: aText price: aPrice additionalClass: addi
 							html span: '$ ', aPrice printString.
 						]
 					].
-			html image url: aFile ]
+			html image url: AngelaLibrary / aFile ]
 ]
 
 { #category : #renderingGrid }
@@ -159,8 +161,8 @@ AngelaPage >> renderResultSpanOn: html [
 	^ html span
 		id: 'result';
 		with: [ (searchCriteria isNil or: [ searchCriteria isEmpty ])
-				ifTrue: [ html span: 'Showing all products' ]
-				ifFalse: [ html span: 'Showing products contains ' , searchCriteria ] ]
+				ifTrue: [ html span: '	Showing all products' ]
+				ifFalse: [ html span: '	Showing products contains ' , searchCriteria ] ]
 ]
 
 { #category : #renderingHead }
@@ -168,6 +170,7 @@ AngelaPage >> renderSearchOn: html [
 	html div
 		class: 'searching';
 		with: [ html textInput
+						id: 'textInput';
 						placeholder: 'Search here';
 						callback: [ :value | searchCriteria := value ];
 						onKeyUp:
@@ -176,8 +179,10 @@ AngelaPage >> renderSearchOn: html [
 								script: [ :s | 
 									s << ((s jQuery id: 'articles-list')
 												html: [ :h | self renderPhotos: Shop uniqueInstance with: h ]).
+								
 									s << ((s jQuery id: 'result') html:
-												[ :h | self renderResultSpanOn: h ]) ]).
+												[ :h | self renderResultSpanOn: h ]).
+											]).
 					self renderResultSpanOn: html ]
 ]
 

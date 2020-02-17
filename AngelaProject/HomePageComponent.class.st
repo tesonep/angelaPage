@@ -1,5 +1,5 @@
 Class {
-	#name : #AngelaPage,
+	#name : #HomePageComponent,
 	#superclass : #WAComponent,
 	#instVars : [
 		'showedSection',
@@ -9,19 +9,19 @@ Class {
 }
 
 { #category : #testing }
-AngelaPage class >> canBeRoot [
+HomePageComponent class >> canBeRoot [
 
 	^ true
 ]
 
 { #category : #accessing }
-AngelaPage >> filter: aString [
+HomePageComponent >> filter: aString [
 	
 	^ Shop uniqueInstance filter: aString
 ]
 
 { #category : #rendering }
-AngelaPage >> renderContentOn: html [
+HomePageComponent >> renderContentOn: html [
 	| theShop |
 	theShop := Shop uniqueInstance.
 	
@@ -34,7 +34,7 @@ AngelaPage >> renderContentOn: html [
 ]
 
 { #category : #renderingFoot }
-AngelaPage >> renderFooterOn: html [
+HomePageComponent >> renderFooterOn: html [
 	html footer
 		with: [ 
 			html paragraph: 'Copyright © 2019'.
@@ -53,7 +53,7 @@ AngelaPage >> renderFooterOn: html [
 ]
 
 { #category : #renderingHead }
-AngelaPage >> renderHeaderOn: html [
+HomePageComponent >> renderHeaderOn: html [
 	html
 		header: [ 
 			self renderLogoOn: html.
@@ -63,7 +63,7 @@ AngelaPage >> renderHeaderOn: html [
 ]
 
 { #category : #renderingList }
-AngelaPage >> renderList: theShop with: html [
+HomePageComponent >> renderList: theShop with: html [
 
 	html section
 		id: 'articles-list';
@@ -74,14 +74,14 @@ AngelaPage >> renderList: theShop with: html [
 ]
 
 { #category : #renderingHead }
-AngelaPage >> renderLogoOn: html [
+HomePageComponent >> renderLogoOn: html [
 	html heading
 		level1;
 		with: [ html image url: AngelaLibrary / #logoSvg ]
 ]
 
 { #category : #renderingList }
-AngelaPage >> renderName: aFile text: aText on: html [
+HomePageComponent >> renderName: aFile text: aText on: html [
 	html anchor
 		url: '#';
 		with: [ html span: aText.
@@ -89,7 +89,7 @@ AngelaPage >> renderName: aFile text: aText on: html [
 ]
 
 { #category : #renderingHead }
-AngelaPage >> renderNavigationOn: html [
+HomePageComponent >> renderNavigationOn: html [
 	html navigation
 		with: [ | gridAnchor listAnchor contactAnchor |
 			gridAnchor := html anchor.
@@ -115,7 +115,7 @@ AngelaPage >> renderNavigationOn: html [
 ]
 
 { #category : #renderingGrid }
-AngelaPage >> renderPhoto: aFile text: aText price: aPrice additionalClass: additionalClass on: html [
+HomePageComponent >> renderPhoto: aFile text: aText price: aPrice additionalClass: additionalClass on: html [
 
 	html div
 		class: 'photo' , ' ' , additionalClass;
@@ -134,7 +134,7 @@ AngelaPage >> renderPhoto: aFile text: aText price: aPrice additionalClass: addi
 ]
 
 { #category : #renderingGrid }
-AngelaPage >> renderPhotos: theShop with: html [
+HomePageComponent >> renderPhotos: theShop with: html [
 	
 	| articlesToShow |
 
@@ -157,7 +157,7 @@ AngelaPage >> renderPhotos: theShop with: html [
 ]
 
 { #category : #renderingHead }
-AngelaPage >> renderResultSpanOn: html [
+HomePageComponent >> renderResultSpanOn: html [
 	^ html span
 		id: 'result';
 		with: [ (searchCriteria isNil or: [ searchCriteria isEmpty ])
@@ -166,7 +166,7 @@ AngelaPage >> renderResultSpanOn: html [
 ]
 
 { #category : #renderingHead }
-AngelaPage >> renderSearchOn: html [
+HomePageComponent >> renderSearchOn: html [
 	html div
 		class: 'searching';
 		with: [ html textInput
@@ -187,11 +187,11 @@ AngelaPage >> renderSearchOn: html [
 ]
 
 { #category : #accessing }
-AngelaPage >> showedSection [
+HomePageComponent >> showedSection [
 	^ showedSection ifNil: [ showedSection := #grid ]
 ]
 
 { #category : #accessing }
-AngelaPage >> showedSection: anObject [
+HomePageComponent >> showedSection: anObject [
 	showedSection := anObject
 ]

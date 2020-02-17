@@ -46,3 +46,9 @@ Shop >> initialize [
 	super initialize.
 	allArticles  := OrderedCollection new
 ]
+
+{ #category : #initialization }
+Shop >> removeArticle: aProduct [
+
+  allArticles remove: aProduct 
+]

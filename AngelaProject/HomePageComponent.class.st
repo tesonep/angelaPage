@@ -15,9 +15,45 @@ HomePageComponent class >> canBeRoot [
 ]
 
 { #category : #accessing }
+HomePageComponent >> addToCart: anArticle [
+
+| sc |
+sc := ShoppingCart new.
+sc addArticle: anArticle.
+]
+
+{ #category : #accessing }
 HomePageComponent >> filter: aString [
 	
 	^ Shop uniqueInstance filter: aString
+]
+
+{ #category : #renderingGrid }
+HomePageComponent >> renderArticle: anArticle on: html [
+	
+	html div 	class: 'photo' , ' ' , anArticle additionalClass;
+		with: [ html div class: 'overlay';
+							 with: [ html heading level: 2;
+														with:[ html anchor callback:[ self addToCart: anArticle ];
+																				with:[		html image width: 35; id: 'plusIcon'; url: AngelaLibrary / #'plusPng'].
+																							html break.
+																						   html span: anArticle name.
+																					      html break.
+																							html span: '$ ', anArticle price printString ]].
+		html image url: AngelaLibrary / anArticle image]
+]
+
+{ #category : #renderingGrid }
+HomePageComponent >> renderArticles: theShop with: html [
+	| articlesToShow |
+	(searchCriteria isNil or: [ searchCriteria isEmpty ])
+		ifTrue: [ articlesToShow := theShop articles. ]
+		ifFalse: [ articlesToShow := theShop filter: searchCriteria ].
+	html section
+		id: 'articles-list';
+		class: 'photos';
+		with: [ articlesToShow do: [ :anArticle | self renderArticle: anArticle on: html ] ]
+																
 ]
 
 { #category : #rendering }
@@ -27,7 +63,7 @@ HomePageComponent >> renderContentOn: html [
 	
 	self renderHeaderOn: html.
 	self showedSection = #grid
-		ifTrue: [ self renderPhotos: theShop with: html ].
+		ifTrue: [ self renderArticles: theShop with: html ].
 	self showedSection = #list
 		ifTrue: [ self renderList: theShop with: html ].
 	self renderFooterOn: html
@@ -58,7 +94,9 @@ HomePageComponent >> renderHeaderOn: html [
 		header: [ 
 			self renderLogoOn: html.
 			self renderSearchOn: html.
-			self renderNavigationOn: html 
+			self renderShoppingCartOn: html.
+			self renderNavigationOn: html.
+			
 			]
 ]
 
@@ -114,48 +152,6 @@ HomePageComponent >> renderNavigationOn: html [
 				with: 'Contact' ]
 ]
 
-{ #category : #renderingGrid }
-HomePageComponent >> renderPhoto: aFile text: aText price: aPrice additionalClass: additionalClass on: html [
-
-	html div
-		class: 'photo' , ' ' , additionalClass;
-		with: [ 
-			html div
-				class: 'overlay';
-				with: [ html heading
-						level: 2;
-						with: [
-							html span: aText.
-					      html break.
-							html span: '$ ', aPrice printString.
-						]
-					].
-			html image url: AngelaLibrary / aFile ]
-]
-
-{ #category : #renderingGrid }
-HomePageComponent >> renderPhotos: theShop with: html [
-	
-	| articlesToShow |
-
-	(searchCriteria isNil or: [ searchCriteria isEmpty ])
-		ifTrue: [ articlesToShow := theShop articles. ]
-		ifFalse: [ articlesToShow := theShop filter: searchCriteria ].
-
-	html section
-		id: 'articles-list';
-		class: 'photos';
-		with: [ 
-			articlesToShow
-				do: [ :e | 
-					self
-						renderPhoto: e image
-						text: e name
-						price: e price
-						additionalClass: e additionalClass
-						on: html ] ]
-]
-
 { #category : #renderingHead }
 HomePageComponent >> renderResultSpanOn: html [
 	^ html span
@@ -178,12 +174,24 @@ HomePageComponent >> renderSearchOn: html [
 								serializeThis;
 								script: [ :s | 
 									s << ((s jQuery id: 'articles-list')
-												html: [ :h | self renderPhotos: Shop uniqueInstance with: h ]).
+												html: [ :h | self renderArticles: Shop uniqueInstance with: h ]).
 								
 									s << ((s jQuery id: 'result') html:
 												[ :h | self renderResultSpanOn: h ]).
 											]).
 					self renderResultSpanOn: html ]
+]
+
+{ #category : #renderingHead }
+HomePageComponent >> renderShoppingCartOn: html [ 
+	html anchor
+			class:'notification';
+			callback:[];
+			with: [ html image  
+							width:35; 
+							url: AngelaLibrary / #'téléchargementPng' . html span class: 'badge'; with:'0'. ] 
+				  
+				
 ]
 
 { #category : #accessing }

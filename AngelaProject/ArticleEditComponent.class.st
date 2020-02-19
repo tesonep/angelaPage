@@ -61,6 +61,7 @@ ArticleEditComponent >> renderContentOn: html [
 
 	html heading style: 'text-align: center'; level: 2; with: 'Edit Article'.
 	html tbsForm: [ self formForEditing: html.
+		
 						 html tbsFormGroup: [ html tbsButton
 															callback: [ self updateArticleContent ];
 															beLight;

@@ -3,6 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'articles',
+		'badge',
 		'total',
 		'basicDeliveryPrice',
 		'extraDeliveryPrice',

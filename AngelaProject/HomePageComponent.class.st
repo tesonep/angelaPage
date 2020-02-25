@@ -16,10 +16,9 @@ HomePageComponent class >> canBeRoot [
 
 { #category : #accessing }
 HomePageComponent >> addToCart: anArticle [
-
-| sc |
-sc := ShoppingCart new.
-sc addArticle: anArticle.
+	| sc |
+	sc := ShoppingCart new.
+	sc addArticle: anArticle
 ]
 
 { #category : #accessing }

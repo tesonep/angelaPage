@@ -3,11 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'articles',
-		'badge',
-		'total',
-		'basicDeliveryPrice',
-		'extraDeliveryPrice',
-		'deliveryPricePerKgOver10kg'
+		'badge'
 	],
 	#category : #AngelaProject
 }
@@ -18,27 +14,46 @@ ShoppingCart >> addArticle: anArticle [
 ]
 
 { #category : #charge }
+ShoppingCart >> basicDeliveryPrice [
+	^ 2
+]
+
+{ #category : #charge }
 ShoppingCart >> delivery [
-	| delivery totalWeight |
+	| delivery totalWeight|
 	delivery := 0.
 	totalWeight := self weightTotal.
 	totalWeight < 5
-		ifTrue: [ delivery := basicDeliveryPrice ].
+		ifTrue: [ delivery := self basicDeliveryPrice].
 	(totalWeight >= 5 and: totalWeight <= 10)
-		ifTrue: [ delivery := basicDeliveryPrice + extraDeliveryPrice ].
+		ifTrue: [ delivery := self basicDeliveryPrice + self extraDeliveryPrice ].
 	totalWeight > 10
-		ifTrue: [ delivery := basicDeliveryPrice + extraDeliveryPrice
-				+ ((totalWeight - 10) * deliveryPricePerKgOver10kg) ].
+		ifTrue: [ delivery := self basicDeliveryPrice + self extraDeliveryPrice
+				+ ((totalWeight - 10) * self deliveryPricePerKgOver10kg) ].
 	^ delivery
+]
+
+{ #category : #charge }
+ShoppingCart >> deliveryPricePerKgOver10kg [
+	^ 1
+]
+
+{ #category : #operations }
+ShoppingCart >> elementsNumber [
+
+	^ articles size
+]
+
+{ #category : #charge }
+ShoppingCart >> extraDeliveryPrice [
+	^ 5
 ]
 
 { #category : #initialize }
 ShoppingCart >> initialize [
 	super initialize.
 	articles := OrderedCollection new.
-	basicDeliveryPrice := 2.
-	extraDeliveryPrice := 5.
-	deliveryPricePerKgOver10kg := 1.
+
 ]
 
 { #category : #operations }
@@ -50,7 +65,7 @@ ShoppingCart >> removeArticle: anArticle [
 ShoppingCart >> subTotal [
 	| subTotal |
 	subTotal := 0.
-	articles do: [ :e | subTotal := subTotal + e price ].
+	articles do: [ :article | subTotal := subTotal + article price ].
 	^ subTotal
 ]
 

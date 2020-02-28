@@ -22,22 +22,27 @@ Shop class >> uniqueInstance [
 	^ uniqueInstance 
 ]
 
-{ #category : #initialization }
+{ #category : #operations }
 Shop >> addArticle: aProduct [
 
   allArticles add: aProduct 
 ]
 
 { #category : #accessing }
-Shop >> articles [
+Shop >> allArticles [
 	
 	^ allArticles
 ]
 
 { #category : #accessing }
+Shop >> allArticles: anObject [
+	allArticles := anObject
+]
+
+{ #category : #operations }
 Shop >> filter: aString [
 
-	^ self articles select: [ :e | (e name asLowercase) includesSubstring: aString asLowercase ]
+	^ self allArticles select: [ :e | (e name asLowercase) includesSubstring: aString asLowercase ]
 ]
 
 { #category : #initialization }
@@ -47,7 +52,7 @@ Shop >> initialize [
 	allArticles  := OrderedCollection new
 ]
 
-{ #category : #initialization }
+{ #category : #operations }
 Shop >> removeArticle: aProduct [
 
   allArticles remove: aProduct 

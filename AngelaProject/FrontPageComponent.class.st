@@ -1,34 +1,43 @@
 Class {
-	#name : #HomePageComponent,
+	#name : #FrontPageComponent,
 	#superclass : #WAComponent,
 	#instVars : [
 		'showedSection',
-		'searchCriteria'
+		'searchCriteria',
+		'shoppingCart'
 	],
 	#category : #AngelaProject
 }
 
 { #category : #testing }
-HomePageComponent class >> canBeRoot [
+FrontPageComponent class >> canBeRoot [
 
 	^ true
 ]
 
-{ #category : #accessing }
-HomePageComponent >> addToCart: anArticle [
-	| sc |
-	sc := ShoppingCart new.
-	sc addArticle: anArticle
+{ #category : #operations }
+FrontPageComponent >> addToCart: anArticle [
+
+^ shoppingCart addArticle: anArticle 
 ]
 
-{ #category : #accessing }
-HomePageComponent >> filter: aString [
+{ #category : #operations }
+FrontPageComponent >> filter: aString [
 	
 	^ Shop uniqueInstance filter: aString
 ]
 
+{ #category : #operations }
+FrontPageComponent >> initialize [ 
+	
+	super initialize.
+	shoppingCart := ShoppingCart new.
+	showedSection := #grid.
+	searchCriteria := ''.
+]
+
 { #category : #renderingGrid }
-HomePageComponent >> renderArticle: anArticle on: html [
+FrontPageComponent >> renderArticle: anArticle on: html [
 	
 	html div 	class: 'photo' , ' ' , anArticle additionalClass;
 		with: [ html div class: 'overlay';
@@ -43,10 +52,10 @@ HomePageComponent >> renderArticle: anArticle on: html [
 ]
 
 { #category : #renderingGrid }
-HomePageComponent >> renderArticles: theShop with: html [
+FrontPageComponent >> renderArticles: theShop with: html [
 	| articlesToShow |
 	(searchCriteria isNil or: [ searchCriteria isEmpty ])
-		ifTrue: [ articlesToShow := theShop articles. ]
+		ifTrue: [ articlesToShow := theShop allArticles. ]
 		ifFalse: [ articlesToShow := theShop filter: searchCriteria ].
 	html section
 		id: 'articles-list';
@@ -56,7 +65,7 @@ HomePageComponent >> renderArticles: theShop with: html [
 ]
 
 { #category : #rendering }
-HomePageComponent >> renderContentOn: html [
+FrontPageComponent >> renderContentOn: html [
 	| theShop |
 	theShop := Shop uniqueInstance.
 	
@@ -69,7 +78,7 @@ HomePageComponent >> renderContentOn: html [
 ]
 
 { #category : #renderingFoot }
-HomePageComponent >> renderFooterOn: html [
+FrontPageComponent >> renderFooterOn: html [
 	html footer
 		with: [ 
 			html paragraph: 'Copyright © 2019'.
@@ -88,7 +97,7 @@ HomePageComponent >> renderFooterOn: html [
 ]
 
 { #category : #renderingHead }
-HomePageComponent >> renderHeaderOn: html [
+FrontPageComponent >> renderHeaderOn: html [
 	html
 		header: [ 
 			self renderLogoOn: html.
@@ -100,25 +109,25 @@ HomePageComponent >> renderHeaderOn: html [
 ]
 
 { #category : #renderingList }
-HomePageComponent >> renderList: theShop with: html [
+FrontPageComponent >> renderList: theShop with: html [
 
 	html section
 		id: 'articles-list';
 		class: 'list';
-		with: [ theShop articles
+		with: [ theShop allArticles
 				do: [ :e |
 					self renderName: e image text: e name , ' $ ' , e price printString  on: html ]]
 ]
 
 { #category : #renderingHead }
-HomePageComponent >> renderLogoOn: html [
+FrontPageComponent >> renderLogoOn: html [
 	html heading
 		level1;
 		with: [ html image url: AngelaLibrary / #logoSvg ]
 ]
 
 { #category : #renderingList }
-HomePageComponent >> renderName: aFile text: aText on: html [
+FrontPageComponent >> renderName: aFile text: aText on: html [
 	html anchor
 		url: '#';
 		with: [ html span: aText.
@@ -126,7 +135,7 @@ HomePageComponent >> renderName: aFile text: aText on: html [
 ]
 
 { #category : #renderingHead }
-HomePageComponent >> renderNavigationOn: html [
+FrontPageComponent >> renderNavigationOn: html [
 	html navigation
 		with: [ | gridAnchor listAnchor contactAnchor |
 			gridAnchor := html anchor.
@@ -152,16 +161,16 @@ HomePageComponent >> renderNavigationOn: html [
 ]
 
 { #category : #renderingHead }
-HomePageComponent >> renderResultSpanOn: html [
+FrontPageComponent >> renderResultSpanOn: html [
 	^ html span
 		id: 'result';
-		with: [ (searchCriteria isNil or: [ searchCriteria isEmpty ])
+		with: [ (searchCriteria isEmpty)
 				ifTrue: [ html span: '	Showing all products' ]
 				ifFalse: [ html span: '	Showing products contains ' , searchCriteria ] ]
 ]
 
 { #category : #renderingHead }
-HomePageComponent >> renderSearchOn: html [
+FrontPageComponent >> renderSearchOn: html [
 	html div
 		class: 'searching';
 		with: [ html textInput
@@ -182,23 +191,33 @@ HomePageComponent >> renderSearchOn: html [
 ]
 
 { #category : #renderingHead }
-HomePageComponent >> renderShoppingCartOn: html [ 
+FrontPageComponent >> renderShoppingCartOn: html [ 
 	html anchor
 			class:'notification';
 			callback:[];
 			with: [ html image  
 							width:35; 
-							url: AngelaLibrary / #'téléchargementPng' . html span class: 'badge'; with:'0'. ] 
+							url: AngelaLibrary / #'téléchargementPng' . html span class: 'badge'; with: shoppingCart elementsNumber. ] 
 				  
 				
 ]
 
 { #category : #accessing }
-HomePageComponent >> showedSection [
-	^ showedSection ifNil: [ showedSection := #grid ]
+FrontPageComponent >> searchCriteria [
+	^ searchCriteria
 ]
 
 { #category : #accessing }
-HomePageComponent >> showedSection: anObject [
+FrontPageComponent >> searchCriteria: anObject [
+	^ searchCriteria := anObject
+]
+
+{ #category : #accessing }
+FrontPageComponent >> showedSection [
+	^ showedSection
+]
+
+{ #category : #accessing }
+FrontPageComponent >> showedSection: anObject [
 	showedSection := anObject
 ]

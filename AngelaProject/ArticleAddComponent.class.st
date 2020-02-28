@@ -11,7 +11,7 @@ Class {
 	#category : #AngelaProject
 }
 
-{ #category : #accessing }
+{ #category : #operations }
 ArticleAddComponent >> addArticleToShop [
 	| theShop |
 	theShop := Shop uniqueInstance.
@@ -68,9 +68,9 @@ ArticleAddComponent >> renderContentOn: html [
 															with: 'Add this article'	]]
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
 ArticleAddComponent >> returnToInternalData [
 
-	backOfficeComponent showArticleList 
+	backOfficeComponent showArticleTable 
 	
 ]

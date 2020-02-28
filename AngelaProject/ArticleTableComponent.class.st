@@ -28,12 +28,12 @@ ArticleTableComponent >> backOfficeComponent: anObject [
 	backOfficeComponent := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
 ArticleTableComponent >> editArticle: anArticle [
  	 backOfficeComponent showEditArticle: anArticle
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
 ArticleTableComponent >> removeArticle: anArticle [
 	| theShop |
 	theShop := Shop uniqueInstance.

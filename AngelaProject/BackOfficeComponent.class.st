@@ -12,10 +12,10 @@ BackOfficeComponent class >> canBeRoot [
 	^ true
 ]
 
-{ #category : #rendering }
+{ #category : #initialize }
 BackOfficeComponent >> initialize [ 
 	super initialize.
-	self showArticleList 
+	self showArticleTable 
 ]
 
 { #category : #rendering }
@@ -34,24 +34,24 @@ BackOfficeComponent >> renderContentOn: html [
           		html render: content	] ]
 ]
 
-{ #category : #rendering }
+{ #category : #contents }
 BackOfficeComponent >> showAddArticle [
 	content := ArticleAddComponent new 
 		backOfficeComponent: self;
 		yourself
 ]
 
-{ #category : #rendering }
-BackOfficeComponent >> showArticleList [
+{ #category : #contents }
+BackOfficeComponent >> showArticleTable [
 	| articles |
-	articles := Shop uniqueInstance articles.
+	articles := Shop uniqueInstance allArticles.
 	content := ArticleTableComponent new
 		articles: articles;
 		backOfficeComponent: self;
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #contents }
 BackOfficeComponent >> showEditArticle: anArticle [
 	content := ArticleEditComponent new 
 		article: anArticle;

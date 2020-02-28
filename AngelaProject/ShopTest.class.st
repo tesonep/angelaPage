@@ -16,7 +16,7 @@ ShopTest >> testAddingAProduct [
 				weight: 0.5;
 				yourself).
 				
-	self assert: aShop articles size equals: 1
+	self assert: aShop allArticles size equals: 1
 ]
 
 { #category : #tests }
@@ -38,7 +38,7 @@ ShopTest >> testFilteringANonExistingProductReturnsEmpty [
 				weight: 0.5;
 				yourself).
 				
-	self assert: aShop articles size equals: 2.
+	self assert: aShop allArticles size equals: 2.
 	self assert: (aShop filter: 'green') size equals: 0
 ]
 
@@ -61,7 +61,7 @@ ShopTest >> testFilteringAllCapitalShouldReturnTheRedYoyo [
 				weight: 0.5;
 				yourself).
 				
-	self assert: aShop articles size equals: 2.
+	self assert: aShop allArticles size equals: 2.
 	self assert: (aShop filter: 'RED') size equals: 1
 ]
 
@@ -85,7 +85,7 @@ ShopTest >> testFilteringFindTextInbetween [
 				weight: 0.5;
 				yourself).
 				
-	self assert: aShop articles size equals: 2.
+	self assert: aShop allArticles size equals: 2.
 	self assert: (aShop filter: 'u') size equals: 1 
 ]
 
@@ -108,7 +108,7 @@ ShopTest >> testFilteringLowercaseShouldReturnTheRedYoyo [
 				weight: 0.5;
 				yourself).
 				
-	self assert: aShop articles size equals: 2.
+	self assert: aShop allArticles size equals: 2.
 	self assert: (aShop filter: 'red') size equals: 1
 ]
 
@@ -131,6 +131,6 @@ ShopTest >> testFilteringShouldReturnTheRedYoyo [
 				weight: 0.5;
 				yourself).
 				
-	self assert: aShop articles size equals: 2.
+	self assert: aShop allArticles size equals: 2.
 	self assert: (aShop filter: 'Red') size equals: 1
 ]

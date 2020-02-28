@@ -68,13 +68,13 @@ ArticleEditComponent >> renderContentOn: html [
 															with: 'Save' ]]
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
 ArticleEditComponent >> returnToInternalData [
 
-	backOfficeComponent showArticleList 
+	backOfficeComponent showArticleTable 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #operations }
 ArticleEditComponent >> updateArticleContent [
 	article 
 		name: articleIName ;

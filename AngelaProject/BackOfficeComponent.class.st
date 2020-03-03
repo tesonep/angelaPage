@@ -51,10 +51,6 @@ BackOfficeComponent >> showArticleTable [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-BackOfficeComponent >> showCheckoutArticle [
-]
-
 { #category : #contents }
 BackOfficeComponent >> showEditArticle: anArticle [
 	content := ArticleEditComponent new 

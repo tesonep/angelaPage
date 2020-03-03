@@ -75,6 +75,8 @@ FrontPageComponent >> renderContentOn: html [
 	self showedSection = #list
 		ifTrue: [ self renderList: theShop with: html ].
 	self renderFooterOn: html
+	
+
 ]
 
 { #category : #renderingFoot }
@@ -194,7 +196,7 @@ FrontPageComponent >> renderSearchOn: html [
 FrontPageComponent >> renderShoppingCartOn: html [ 
 	html anchor
 			class:'notification';
-			callback:[ self showShoppingCart ];
+			callback:[ self showCheckOut ];
 			with: [ html image  
 							width:35; 
 							url: AngelaLibrary / #'téléchargementPng' . html span class: 'badge'; with: shoppingCart elementsNumber. ] 
@@ -210,6 +212,22 @@ FrontPageComponent >> searchCriteria [
 { #category : #accessing }
 FrontPageComponent >> searchCriteria: anObject [
 	^ searchCriteria := anObject
+]
+
+{ #category : #accessing }
+FrontPageComponent >> shoppingCart [
+	^ shoppingCart
+]
+
+{ #category : #accessing }
+FrontPageComponent >> shoppingCart: anObject [
+	shoppingCart := anObject
+]
+
+{ #category : #operations }
+FrontPageComponent >> showCheckOut [
+	self call: ( CheckOutComponent new myShoppingCart: self shoppingCart; yourself )
+
 ]
 
 { #category : #accessing }

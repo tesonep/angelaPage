@@ -13,6 +13,26 @@ ShoppingCart >> addArticle: anArticle [
 	articles add: anArticle
 ]
 
+{ #category : #accessing }
+ShoppingCart >> articles [
+	^ articles
+]
+
+{ #category : #accessing }
+ShoppingCart >> articles: anObject [
+	articles := anObject
+]
+
+{ #category : #accessing }
+ShoppingCart >> badge [
+	^ badge
+]
+
+{ #category : #accessing }
+ShoppingCart >> badge: anObject [
+	badge := anObject
+]
+
 { #category : #charge }
 ShoppingCart >> basicDeliveryPrice [
 	^ 2

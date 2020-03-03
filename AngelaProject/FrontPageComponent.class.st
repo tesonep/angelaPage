@@ -27,7 +27,7 @@ FrontPageComponent >> filter: aString [
 	^ Shop uniqueInstance filter: aString
 ]
 
-{ #category : #operations }
+{ #category : #initialize }
 FrontPageComponent >> initialize [ 
 	
 	super initialize.
@@ -54,7 +54,7 @@ FrontPageComponent >> renderArticle: anArticle on: html [
 { #category : #renderingGrid }
 FrontPageComponent >> renderArticles: theShop with: html [
 	| articlesToShow |
-	(searchCriteria isNil or: [ searchCriteria isEmpty ])
+	searchCriteria isEmpty
 		ifTrue: [ articlesToShow := theShop allArticles. ]
 		ifFalse: [ articlesToShow := theShop filter: searchCriteria ].
 	html section
@@ -194,7 +194,7 @@ FrontPageComponent >> renderSearchOn: html [
 FrontPageComponent >> renderShoppingCartOn: html [ 
 	html anchor
 			class:'notification';
-			callback:[];
+			callback:[ self showShoppingCart ];
 			with: [ html image  
 							width:35; 
 							url: AngelaLibrary / #'téléchargementPng' . html span class: 'badge'; with: shoppingCart elementsNumber. ] 

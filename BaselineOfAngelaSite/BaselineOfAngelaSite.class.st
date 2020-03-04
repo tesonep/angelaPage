@@ -12,6 +12,6 @@ BaselineOfAngelaSite >> baseline: spec [
 		do: [ spec
 				baseline: 'Seaside3'
 				with: [ spec repository: 'github://SeasideSt/Seaside:master/repository' ].
-			spec package: 'AngelaSite' with: [ spec requires: #('Seaside') ] ].
+			spec package: 'AngelaSite' with: [ spec requires: #('Seaside3') ] ].
 	spec group: 'default' with: #(AngelaSite)
 ]

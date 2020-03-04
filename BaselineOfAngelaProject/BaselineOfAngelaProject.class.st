@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfAngelaSite,
+	#name : #BaselineOfAngelaProject,
 	#superclass : #BaselineOf,
-	#category : #BaselineOfAngelaSite
+	#category : #BaselineOfAngelaProject
 }
 
 { #category : #baseline }
-BaselineOfAngelaSite >> baseline: spec [
+BaselineOfAngelaProject >> baseline: spec [
 	<baseline>
 	spec
 		for: #common

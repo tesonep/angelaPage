@@ -10,7 +10,7 @@ BaselineOfAngelaSite >> baseline: spec [
 	spec
 		for: #common
 		do: [ spec
-				baseline: 'Seaside'
+				baseline: 'Seaside3'
 				with: [ spec repository: 'github://SeasideSt/Seaside:master/repository' ].
 			spec package: 'AngelaSite' with: [ spec requires: #('Seaside') ] ].
 	spec group: 'default' with: #(AngelaSite)

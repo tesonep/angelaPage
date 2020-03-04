@@ -36,28 +36,49 @@ CheckOutComponent >> removeArticle: anArticle [
 ]
 
 { #category : #rendering }
+CheckOutComponent >> renderCheckOutBoxOn: html [
+	html div
+		id: 'check_out_box';
+		with: [ html table
+			with:[ html paragraph: 'Subtotal: '.
+			html break.
+			html paragraph 
+				id: 'total_border';
+				with: 'Delivery: '.
+			html break.
+			html paragraph: 'Total: ' ].
+			html
+				tbsForm: [ html tbsButton
+						callback: [ self goToPayment ];
+						with: 'Check Out' ] ]  
+]
+
+{ #category : #rendering }
 CheckOutComponent >> renderContentOn: html [
+	html div
+		id: 'check_out';
+		with: [ self renderShoppingCartItemsOn: html.
+			self renderCheckOutBoxOn: html ]
+		self myShoppingCart renderFooterOn: html
+		
+]
+
+{ #category : #rendering }
+CheckOutComponent >> renderShoppingCartItemsOn: html [
 	| headerBlock tableBlock |
 	headerBlock := self tableHeader: html.
 	tableBlock := [ html tableHead: headerBlock.
 	self tableBody: html ].
-	html div 
-	id: 'shopping_cart_table';
-	with: [ html tbsContainer
+	html div
+		id: 'shopping_cart_table';
 		with: [ html heading
-					style: 'text-align: center';
-					level2;
-					with: 'Your Shopping Cart'.
-				html div
-					with: [ html tbsTable
-							beBordered;
-							with: tableBlock.
-						html
-							tbsForm: [ html tbsButton
-									callback: [ self goToPayment ];
-									with: 'Check Out' ] ] ] ].
-
-						
+				style: 'text-align: center';
+				level: 2;
+				with: 'Your Shopping Cart'.
+			html tbsContainer
+				with: [ html break.
+					html tbsTable: tableBlock ] ]
+			
 	
 ]
 

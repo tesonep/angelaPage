@@ -12,6 +12,13 @@ BaselineOfAngelaProject >> baseline: spec [
 		do: [ spec
 				baseline: 'Seaside3'
 				with: [ spec repository: 'github://SeasideSt/Seaside:master/repository' ].
-			spec package: 'AngelaProject' with: [ spec requires: #('Seaside3') ] ].
+			spec
+				configuration: 'Bootstrap'
+				with: [ spec
+						repository: 'github://astares/Seaside-Bootstrap:master/src';
+						versionString: #stable ].
+			spec
+				package: 'AngelaProject'
+				with: [ spec requires: #(Seaside3 Bootstrap) ] ].
 	spec group: 'default' with: #(AngelaProject)
 ]

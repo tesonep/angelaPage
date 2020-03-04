@@ -225,9 +225,15 @@ FrontPageComponent >> shoppingCart: anObject [
 ]
 
 { #category : #operations }
-FrontPageComponent >> showCheckOut [
-	self call: ( CheckOutComponent new myShoppingCart: self shoppingCart; yourself )
+FrontPageComponent >> shoppingCartPage [
+	^ CheckOutComponent new
+		myShoppingCart: self shoppingCart;
+		yourself
+]
 
+{ #category : #operations }
+FrontPageComponent >> showCheckOut [
+	self call: self shoppingCartPage
 ]
 
 { #category : #accessing }

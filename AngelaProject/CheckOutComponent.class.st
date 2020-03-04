@@ -18,6 +18,11 @@ CheckOutComponent >> articles: anObject [
 	articles := anObject
 ]
 
+{ #category : #rendering }
+CheckOutComponent >> goToPayment [
+	self answer
+]
+
 { #category : #accessing }
 CheckOutComponent >> myShoppingCart [
 	^ myShoppingCart
@@ -57,10 +62,10 @@ CheckOutComponent >> renderCheckOutBoxOn: html [
 CheckOutComponent >> renderContentOn: html [
 	html div
 		id: 'check_out';
-		with: [ self renderShoppingCartItemsOn: html.
-			self renderCheckOutBoxOn: html ]
-		self myShoppingCart renderFooterOn: html
-		
+		with: [ 
+			self renderShoppingCartItemsOn: html.
+			self renderCheckOutBoxOn: html ].
+	
 ]
 
 { #category : #rendering }
@@ -77,9 +82,18 @@ CheckOutComponent >> renderShoppingCartItemsOn: html [
 				with: 'Your Shopping Cart'.
 			html tbsContainer
 				with: [ html break.
-					html tbsTable: tableBlock ] ]
-			
-	
+					html tbsTable: tableBlock ].
+			html
+				tbsForm: [ html tbsButton
+						beInfo;
+						callback: [ self returnToFrontPage ];
+						with: 'Continue To Shopping' ] ]
+]
+
+{ #category : #rendering }
+CheckOutComponent >> returnToFrontPage [
+
+	^ self answer
 ]
 
 { #category : #rendering }

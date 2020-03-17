@@ -11,6 +11,20 @@ Class {
 	#category : #AngelaProject
 }
 
+{ #category : #testing }
+Article class >> isVoyageRoot [
+	^ true
+]
+
+{ #category : #initialization }
+Article class >> setUpConnection [
+	| repository |
+	repository := VOMongoRepository
+		host: 'localhost'
+		database: 'AngelaProject'.
+	repository enableSingleton
+]
+
 { #category : #accessing }
 Article >> additionalClass [
 	^ additionalClass

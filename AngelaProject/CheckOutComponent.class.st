@@ -18,6 +18,11 @@ CheckOutComponent >> articles: anObject [
 	articles := anObject
 ]
 
+{ #category : #accessing }
+CheckOutComponent >> deliveryPrice [
+	^ myShoppingCart delivery 
+]
+
 { #category : #rendering }
 CheckOutComponent >> goToPayment [
 	self answer
@@ -30,7 +35,8 @@ CheckOutComponent >> myShoppingCart [
 
 { #category : #accessing }
 CheckOutComponent >> myShoppingCart: anObject [
-	myShoppingCart := anObject
+	myShoppingCart := anObject.
+	articles := myShoppingCart articles.
 ]
 
 { #category : #removing }
@@ -45,13 +51,13 @@ CheckOutComponent >> renderCheckOutBoxOn: html [
 	html div
 		id: 'check_out_box';
 		with: [ html table
-			with:[ html paragraph: 'Subtotal: '.
+			with:[ html paragraph: 'Subtotal: ', self subtotalPrice asString.
 			html break.
 			html paragraph 
 				id: 'total_border';
-				with: 'Delivery: '.
+				with: 'Delivery: ', self deliveryPrice asString.
 			html break.
-			html paragraph: 'Total: ' ].
+			html paragraph: 'Total: ', self totalPrice asString]. "cannot concatinate stirng and number so transform number to string with asString"
 			html
 				tbsForm: [ html tbsButton
 						callback: [ self goToPayment ];
@@ -96,6 +102,16 @@ CheckOutComponent >> returnToFrontPage [
 	^ self answer
 ]
 
+{ #category : #accessing }
+CheckOutComponent >> subtotalPrice [
+
+	^ myShoppingCart subTotal.
+	
+	
+	
+"error: CheckOutComponent is indexable"
+]
+
 { #category : #rendering }
 CheckOutComponent >> tableBody: html [
 	^ html
@@ -117,4 +133,9 @@ CheckOutComponent >> tableHeader: html [
 			html tableHeading: ' Weight '.
 			html tableHeading: ' Image '.
 			html tableHeading: ' Remove' ]
+]
+
+{ #category : #accessing }
+CheckOutComponent >> totalPrice [
+	^ self subtotalPrice + self deliveryPrice
 ]

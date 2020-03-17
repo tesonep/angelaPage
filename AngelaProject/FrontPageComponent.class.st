@@ -100,12 +100,16 @@ FrontPageComponent >> renderFooterOn: html [
 
 { #category : #renderingHead }
 FrontPageComponent >> renderHeaderOn: html [
-	html div
-		with: [ html header: [ self renderLogoOn: html.
-					self renderNavigationOn: html.
-					html div
-						with: [ self renderSearchOn: html.
-							self renderShoppingCartOn: html ] ] ]
+	html header
+		with: [ 
+			html div
+				class: 'header1';
+				with: [ self renderLogoOn: html.
+							self renderNavigationOn: html ].
+			html div
+				class: 'header2';
+				with: [ self renderSearchOn: html.
+							self renderShoppingCartOn: html ]]
 ]
 
 { #category : #renderingList }

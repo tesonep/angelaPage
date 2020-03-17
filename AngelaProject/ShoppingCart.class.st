@@ -40,7 +40,7 @@ ShoppingCart >> basicDeliveryPrice [
 
 { #category : #charge }
 ShoppingCart >> delivery [
-	| delivery totalWeight|
+	|delivery totalWeight|
 	delivery := 0.
 	totalWeight := self weightTotal.
 	totalWeight < 5

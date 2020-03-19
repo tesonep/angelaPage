@@ -25,7 +25,7 @@ CheckOutComponent >> deliveryPrice [
 
 { #category : #rendering }
 CheckOutComponent >> goToPayment [
-	self answer
+ ^ self answer
 ]
 
 { #category : #accessing }

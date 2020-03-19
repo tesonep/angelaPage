@@ -83,7 +83,7 @@ FrontPageComponent >> renderContentOn: html [
 FrontPageComponent >> renderFooterOn: html [
 	html footer
 		with: [ 
-			html paragraph: 'Copyright © 2019'.
+			html paragraph: 'Copyright © 2020'.
 			html navigation	 with: [  
 				html anchor 
 					url: 'http://facebook.com';
@@ -200,8 +200,10 @@ FrontPageComponent >> renderShoppingCartOn: html [
 			class:'notification';
 			callback:[ self showCheckOut ];
 			with: [ html image  
-							width:35; 
-							url: AngelaLibrary / #'téléchargementPng' . html span class: 'badge'; with: shoppingCart elementsNumber. ] 
+								width:35; 
+								url: AngelaLibrary / #'téléchargementPng'.
+					  html span class: 'badge';
+							   with: shoppingCart elementsNumber. ] 
 				  
 				
 ]

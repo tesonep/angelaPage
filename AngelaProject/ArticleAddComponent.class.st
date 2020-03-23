@@ -20,7 +20,7 @@ ArticleAddComponent >> addArticleToShop [
 										price: articlePrice ;
 										weight: articleWeight ;
 										image: articleImage asSymbol).	
-	self returnToInternalData.
+	self returnToArticleTable.
 ]
 
 { #category : #accessing }
@@ -69,7 +69,7 @@ ArticleAddComponent >> renderContentOn: html [
 ]
 
 { #category : #operations }
-ArticleAddComponent >> returnToInternalData [
+ArticleAddComponent >> returnToArticleTable [
 
 	backOfficeComponent showArticleTable 
 	

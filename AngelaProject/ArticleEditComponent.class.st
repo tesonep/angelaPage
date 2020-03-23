@@ -69,7 +69,7 @@ ArticleEditComponent >> renderContentOn: html [
 ]
 
 { #category : #operations }
-ArticleEditComponent >> returnToInternalData [
+ArticleEditComponent >> returnToArticleTable [
 
 	backOfficeComponent showArticleTable 
 ]
@@ -81,5 +81,5 @@ ArticleEditComponent >> updateArticleContent [
 		price: articleIPrice ;
 		weight: articleIWeight ;
 		image: articleImage asSymbol.	
-	self returnToInternalData.
+	self returnToArticleTable.
 ]

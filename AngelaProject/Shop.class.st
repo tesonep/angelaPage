@@ -21,7 +21,8 @@ Shop class >> uniqueInstance [
 { #category : #operations }
 Shop >> addArticle: aProduct [
 
-  allArticles add: aProduct 
+  allArticles add: aProduct.
+  self save.
 ]
 
 { #category : #accessing }

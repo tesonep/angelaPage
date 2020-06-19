@@ -22,7 +22,7 @@ Shop class >> uniqueInstance [
 Shop >> addArticle: aProduct [
 
   allArticles add: aProduct.
-  self save.
+  self save. "save to mongoDB"
 ]
 
 { #category : #accessing }

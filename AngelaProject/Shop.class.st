@@ -10,6 +10,9 @@ Class {
 { #category : #testing }
 Shop class >> bootstrapDatabase [
 	<example>
+	| repo |
+	repo := VOMongoRepository database: 'Shop'.
+	repo enableSingleton.
 	Article exampleArticles.
 	Article selectAll do: [ :a | self uniqueInstance addArticle: a ]
 ]

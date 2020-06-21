@@ -8,14 +8,24 @@ Class {
 }
 
 { #category : #testing }
+Shop class >> bootstrapDatabase [
+	<example>
+	Article exampleArticles.
+	Article selectAll do: [ :a | self uniqueInstance addArticle: a ]
+]
+
+{ #category : #testing }
 Shop class >> isVoyageRoot [
 	^ true
 ]
 
 { #category : #accessing }
 Shop class >> uniqueInstance [
-
-	^ Shop selectAll first
+	^ Shop selectAll
+		ifEmpty: [ Shop new
+				save;
+				yourself ]
+		ifNotEmpty: [ :sl | sl first ]
 ]
 
 { #category : #operations }
